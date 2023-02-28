@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script defer src="./main.js"></script>
+    <title>The Odin Project | To Do List</title>
+  </head>
+  <body>
+    <div class="content" id="content">
+      <!-- form projects -->
+      <form action="#">
+        <label for="title">Title</label> <br />
+        <input id="title" type="text" required /> <br />
+        <!-- <label for="desc">Description</label> <br />
+        <input id="desc" type="text" /> -->
+        <button id="btn-submit" type="submit">Submit</button>
+      </form>
+      <!-- form todos -->
+      <form action="#">
+        <label for="todos-title">Title Todos</label> <br />
+        <input id="todos-title" type="text" required /> <br />
+        <label for="todos-desc">Desc Todos</label> <br />
+        <input id="todos-desc" type="text" required /> <br />
+        <!-- <label for="todos-project">Project Todos</label> <br />
+        <input id="todos-project" type="text" /> <br /> -->
+        <!-- <label for="desc">Description</label> <br />
+        <input id="desc" type="text" /> -->
+        <button id="btn-submit-todos" type="submit">Submit</button>
+      </form>
+      <!-- container projects and todos -->
+      <div class="projects">
+        <!-- <h1>Projects</h1> -->
+      </div>
+      <div class="todos-container">
+        <h1>Todos</h1>
+        <div class="todos"></div>
+      </div>
+    </div>
+  </body>
+</html>
