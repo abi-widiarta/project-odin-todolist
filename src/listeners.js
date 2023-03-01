@@ -1,7 +1,7 @@
-import { addTodo, appendTodoOnProjectSelect } from "./createToDo";
+import { addTodo, appendTodoOnProjectSelect, todos } from "./createToDo";
 import { loadInitialProject } from "./loadInitialProject";
 import { projectList } from "./loadInitialProject";
-import deleteProject from "./deleteFunction";
+import { deleteProject, deleteTodos } from "./deleteFunction";
 import editProject from "./editFunction";
 
 let projectChildren = document.querySelector(".projects").children;
@@ -48,6 +48,7 @@ btnSubmitTodos.addEventListener("click", (event) => {
   event.preventDefault();
   addTodo(titleTodosInput.value, descTodosInput.value, projectSelectedIndex);
   appendTodoOnProjectSelect(projectSelectedIndex);
+  selectTodos();
   titleTodosInput.value = "";
   descTodosInput.value = "";
 });
@@ -74,15 +75,38 @@ const innerListener = (event) => {
   }
 };
 
-function myListener(e) {
+const myListener = (e) => {
   innerListener(e);
-}
+};
 
 // masih misteri kenapa jika bentuknya seperti ini, dia tidak ada
 // duplikasi
+
+// fungsi select project untuk memberikan eventlistener click ke semua project
 const selectProject = () => {
   Array.from(projectChildren).forEach((element) => {
     element.addEventListener("click", myListener);
+  });
+};
+
+const tesSelectTodos = (e) => {
+  if (e.target.classList.contains("edit-btn-todos")) {
+    console.log("edit");
+  } else if (e.target.classList.contains("delete-btn-todos")) {
+    deleteTodos(e.target.parentElement.id, projectSelectedIndex);
+  } else {
+    console.log("select all");
+  }
+};
+
+const myListenerTodos = (e) => {
+  tesSelectTodos(e);
+};
+
+const selectTodos = () => {
+  console.log("masuk select todos");
+  Array.from(todos.children).forEach((element) => {
+    element.addEventListener("click", myListenerTodos);
   });
 };
 
@@ -99,4 +123,4 @@ const selectProject = () => {
 //   });
 // };
 
-export { projectSelectedIndex, projectChildren, selectProject };
+export { projectSelectedIndex, projectChildren, selectProject, selectTodos };

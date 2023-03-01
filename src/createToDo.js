@@ -1,8 +1,9 @@
 import loadInitialProject, { projectList } from "./loadInitialProject";
 import { projectSelectedIndex } from "./listeners";
+import { selectTodos } from "./listeners";
 
 const todos = document.querySelector(".todos");
-
+let idCount = 0;
 // factory function for to do
 const createTodo = (title, desc) => {
   return { title, desc };
@@ -22,26 +23,34 @@ const appendTodo = (newTodo) => {
   const deleteBtn = document.createElement("button");
   const editBtn = document.createElement("button");
 
+  todosWrapper.setAttribute("id", idCount);
+
   p.textContent = `${newTodo.title}, ${newTodo.desc}, ${projectSelectedIndex}`;
   p.style.display = "inline-block";
 
   editBtn.textContent = "Edit";
-  deleteBtn.style.display = "inline-block";
+  editBtn.style.display = "inline-block";
+  editBtn.className = "edit-btn-todos";
 
   deleteBtn.textContent = "Delete";
   deleteBtn.style.display = "inline-block";
+  deleteBtn.className = "delete-btn-todos";
 
   todosWrapper.appendChild(p);
   todosWrapper.appendChild(editBtn);
   todosWrapper.appendChild(deleteBtn);
   todos.appendChild(todosWrapper);
+
+  idCount++;
 };
 
 const appendTodoOnProjectSelect = (projectSelectedIndex) => {
+  idCount = 0;
   todos.innerHTML = "";
   projectList[projectSelectedIndex].projectTask.forEach((element) => {
     appendTodo(element);
   });
+  selectTodos();
 };
 
 const findProjectIndex = () => {
