@@ -19,16 +19,21 @@ const addTodo = (todosTitle, todosDesc, projectSelectedIndex) => {
 const appendTodo = (newTodo) => {
   const todosWrapper = document.createElement("div");
   const p = document.createElement("p");
-  const button = document.createElement("button");
+  const deleteBtn = document.createElement("button");
+  const editBtn = document.createElement("button");
 
   p.textContent = `${newTodo.title}, ${newTodo.desc}, ${projectSelectedIndex}`;
   p.style.display = "inline-block";
 
-  button.textContent = "Delete";
-  button.style.display = "inline-block";
+  editBtn.textContent = "Edit";
+  deleteBtn.style.display = "inline-block";
+
+  deleteBtn.textContent = "Delete";
+  deleteBtn.style.display = "inline-block";
 
   todosWrapper.appendChild(p);
-  todosWrapper.appendChild(button);
+  todosWrapper.appendChild(editBtn);
+  todosWrapper.appendChild(deleteBtn);
   todos.appendChild(todosWrapper);
 };
 

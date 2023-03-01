@@ -2,9 +2,12 @@ import { addTodo, appendTodoOnProjectSelect } from "./createToDo";
 import { loadInitialProject } from "./loadInitialProject";
 import { projectList } from "./loadInitialProject";
 import deleteProject from "./deleteFunction";
+import editProject from "./editFunction";
 
 let projectChildren = document.querySelector(".projects").children;
 let projectSelectedIndex = 0;
+let editProjectIndex = 0;
+let isEdit = false;
 
 const titleInput = document.getElementById("title");
 // const descInput = document.getElementById("desc");
@@ -16,9 +19,30 @@ const descTodosInput = document.getElementById("todos-desc");
 
 btnSubmit.addEventListener("click", (event) => {
   event.preventDefault();
-  loadInitialProject(titleInput.value);
+  if (!isEdit) {
+    loadInitialProject(titleInput.value);
+  } else {
+    editProject(editProjectIndex, titleInput.value);
+    isEdit = false;
+    appendTodoOnProjectSelect(editProjectIndex);
+    btnSubmit.textContent = "Submit";
+  }
   titleInput.value = "";
 });
+
+// const submitForm = () => {
+//   btnSubmit.addEventListener("click", (event) => {
+//     event.preventDefault();
+//     if (!isEdit) {
+//       loadInitialProject(titleInput.value);
+//     } else {
+//       console.log(isEdit);
+//     }
+//     titleInput.value = "";
+//   });
+// };
+
+// submitForm();
 
 btnSubmitTodos.addEventListener("click", (event) => {
   event.preventDefault();
@@ -30,20 +54,23 @@ btnSubmitTodos.addEventListener("click", (event) => {
 
 const innerListener = (event) => {
   const currentSelected = document.querySelector(".selected");
-  const btnDeleteProject = document.querySelectorAll(".btn-delete-project");
+
   if (currentSelected != undefined) {
     currentSelected.classList.remove("selected");
   }
 
-  // console.log(btnDeleteProject);
-  if (!event.target.classList.contains("btn-delete-project")) {
+  if (event.target.classList.contains("btn-delete-project")) {
+    deleteProject(event.target.parentElement.firstChild.id);
+  } else if (event.target.classList.contains("btn-edit-project")) {
+    isEdit = true;
+    titleInput.value = projectList[event.target.parentElement.firstChild.id].projectName;
+    editProjectIndex = event.target.parentElement.firstChild.id;
+    btnSubmit.textContent = "Edit";
+  } else {
     projectSelectedIndex = event.target.firstChild.id;
     event.target.classList.add("selected");
     console.log(event.target);
     appendTodoOnProjectSelect(projectSelectedIndex);
-  } else {
-    // console.log(event.target.previousElementSibling.id);
-    deleteProject(event.target.previousElementSibling.id);
   }
 };
 

@@ -27,6 +27,7 @@ const appendProjectDom = (projectName) => {
   const projectWrapper = document.createElement("div");
   const p = document.createElement("p");
   const deleteBtn = document.createElement("button");
+  const editBtn = document.createElement("button");
 
   projectWrapper.className = "project-wrapper";
 
@@ -39,16 +40,20 @@ const appendProjectDom = (projectName) => {
   deleteBtn.textContent = "Delete";
   deleteBtn.style.display = "inline-block";
   deleteBtn.className = "btn-delete-project";
-  // deleteBtn.style.pointerEvents = "none";
+
+  editBtn.textContent = "Edit";
+  editBtn.style.display = "inline-block";
+  editBtn.className = "btn-edit-project";
 
   projectWrapper.appendChild(p);
+  projectWrapper.appendChild(editBtn);
   projectWrapper.appendChild(deleteBtn);
 
   content.appendChild(projectWrapper);
   idCount++;
 };
 
-const appendAllProjectFromArray = (deleteProjectIndex) => {
+const appendAllProjectFromArray = () => {
   idCount = 0;
   content.innerHTML = "";
   projectList.forEach((element) => {

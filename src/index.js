@@ -1,6 +1,9 @@
 import "./style.css";
 
-// tambah fungsi edit, hapus di project dan to do
+// projects :
+// - edit,hapus(done)
+// todo :
+// - edit,hapus
 
 console.log("tes from console to test webpack setup");
 
