@@ -2,12 +2,14 @@ import { addTodo, appendTodoOnProjectSelect, todos } from "./createToDo";
 import { loadInitialProject } from "./loadInitialProject";
 import { projectList } from "./loadInitialProject";
 import { deleteProject, deleteTodos } from "./deleteFunction";
-import editProject from "./editFunction";
+import { editProject, editTodo } from "./editFunction";
 
 let projectChildren = document.querySelector(".projects").children;
 let projectSelectedIndex = 0;
 let editProjectIndex = 0;
-let isEdit = false;
+let editTodoIndex = 0;
+let isEditProject = false;
+let isEditTodo = false;
 
 const titleInput = document.getElementById("title");
 // const descInput = document.getElementById("desc");
@@ -19,11 +21,11 @@ const descTodosInput = document.getElementById("todos-desc");
 
 btnSubmit.addEventListener("click", (event) => {
   event.preventDefault();
-  if (!isEdit) {
+  if (!isEditProject) {
     loadInitialProject(titleInput.value);
   } else {
     editProject(editProjectIndex, titleInput.value);
-    isEdit = false;
+    isEditProject = false;
     appendTodoOnProjectSelect(editProjectIndex);
     btnSubmit.textContent = "Submit";
   }
@@ -33,10 +35,10 @@ btnSubmit.addEventListener("click", (event) => {
 // const submitForm = () => {
 //   btnSubmit.addEventListener("click", (event) => {
 //     event.preventDefault();
-//     if (!isEdit) {
+//     if (!isEditProject) {
 //       loadInitialProject(titleInput.value);
 //     } else {
-//       console.log(isEdit);
+//       console.log(isEditProject);
 //     }
 //     titleInput.value = "";
 //   });
@@ -46,9 +48,16 @@ btnSubmit.addEventListener("click", (event) => {
 
 btnSubmitTodos.addEventListener("click", (event) => {
   event.preventDefault();
-  addTodo(titleTodosInput.value, descTodosInput.value, projectSelectedIndex);
-  appendTodoOnProjectSelect(projectSelectedIndex);
-  selectTodos();
+  if (!isEditTodo) {
+    addTodo(titleTodosInput.value, descTodosInput.value, projectSelectedIndex);
+    appendTodoOnProjectSelect(projectSelectedIndex);
+    selectTodos();
+  } else {
+    console.log("edit todo");
+    editTodo(editTodoIndex, projectSelectedIndex, titleTodosInput.value, descTodosInput.value);
+    btnSubmitTodos.textContent = "Submit";
+    isEditTodo = false;
+  }
   titleTodosInput.value = "";
   descTodosInput.value = "";
 });
@@ -63,9 +72,10 @@ const innerListener = (event) => {
   if (event.target.classList.contains("btn-delete-project")) {
     deleteProject(event.target.parentElement.firstChild.id);
   } else if (event.target.classList.contains("btn-edit-project")) {
-    isEdit = true;
+    isEditProject = true;
     titleInput.value = projectList[event.target.parentElement.firstChild.id].projectName;
     editProjectIndex = event.target.parentElement.firstChild.id;
+    appendTodoOnProjectSelect(editProjectIndex);
     btnSubmit.textContent = "Edit";
   } else {
     projectSelectedIndex = event.target.firstChild.id;
@@ -91,7 +101,13 @@ const selectProject = () => {
 
 const tesSelectTodos = (e) => {
   if (e.target.classList.contains("edit-btn-todos")) {
-    console.log("edit");
+    console.log(e.target.parentElement.id);
+    // console.log(projectList[projectSelectedIndex].projectTask[e.target.parentElement.id].title);
+    titleTodosInput.value = projectList[projectSelectedIndex].projectTask[e.target.parentElement.id].title;
+    descTodosInput.value = projectList[projectSelectedIndex].projectTask[e.target.parentElement.id].desc;
+    editTodoIndex = e.target.parentElement.id;
+    btnSubmitTodos.textContent = "Edit";
+    isEditTodo = true;
   } else if (e.target.classList.contains("delete-btn-todos")) {
     deleteTodos(e.target.parentElement.id, projectSelectedIndex);
   } else {
