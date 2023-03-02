@@ -1,17 +1,29 @@
 // import { selectProject } from "./Listeners";
 
 import { removeListener, selectProject } from "./listeners";
-import { todos } from "./createToDo";
+import { appendTodo, todos } from "./createToDo";
+import { projectSelectedIndex } from "./listeners";
 
 // let projectObj = {};
 let projectList = [];
 let idCount = 0;
+let idCountTodo = 0;
 
 const content = document.querySelector(".projects");
+const allTasksContainer = document.querySelector(".all-tasks");
 
 const createProject = (projectName) => {
   let projectTask = [];
   return { projectName, projectTask };
+};
+
+const loadAllTasks = () => {
+  allTasksContainer.innerHTML = "";
+  Array.from(projectList).forEach((element, index) => {
+    element.projectTask.forEach((task) => {
+      appendAllTodo(task, index);
+    });
+  });
 };
 
 const loadInitialProject = (projectName) => {
@@ -21,6 +33,34 @@ const loadInitialProject = (projectName) => {
   appendProjectDom(projectName);
 
   selectProject();
+};
+
+const appendAllTodo = (newTodo, index) => {
+  const todosWrapper = document.createElement("div");
+  const p = document.createElement("p");
+  const deleteBtn = document.createElement("button");
+  const editBtn = document.createElement("button");
+
+  todosWrapper.setAttribute("id", idCountTodo);
+
+  p.textContent = `${newTodo.title}, ${newTodo.desc}, ${index}`;
+  p.style.display = "inline-block";
+
+  editBtn.textContent = "Edit";
+  editBtn.style.display = "inline-block";
+  editBtn.className = "edit-btn-todos";
+
+  deleteBtn.textContent = "Delete";
+  deleteBtn.style.display = "inline-block";
+  deleteBtn.className = "delete-btn-todos";
+
+  todosWrapper.appendChild(p);
+  todosWrapper.appendChild(editBtn);
+  todosWrapper.appendChild(deleteBtn);
+  // console.log(allTasksContainer);
+  allTasksContainer.appendChild(todosWrapper);
+
+  idCountTodo++;
 };
 
 const appendProjectDom = (projectName) => {
@@ -63,4 +103,4 @@ const appendAllProjectFromArray = () => {
   selectProject();
 };
 
-export { loadInitialProject, projectList, appendProjectDom, createProject, appendAllProjectFromArray };
+export { loadInitialProject, projectList, appendProjectDom, createProject, appendAllProjectFromArray, loadAllTasks };

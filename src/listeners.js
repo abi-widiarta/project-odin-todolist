@@ -1,5 +1,5 @@
 import { addTodo, appendTodoOnProjectSelect, todos } from "./createToDo";
-import { loadInitialProject } from "./loadInitialProject";
+import { loadAllTasks, loadInitialProject } from "./loadInitialProject";
 import { projectList } from "./loadInitialProject";
 import { deleteProject, deleteTodos } from "./deleteFunction";
 import { editProject, editTodo } from "./editFunction";
@@ -52,11 +52,13 @@ btnSubmitTodos.addEventListener("click", (event) => {
     addTodo(titleTodosInput.value, descTodosInput.value, projectSelectedIndex);
     appendTodoOnProjectSelect(projectSelectedIndex);
     selectTodos();
+    loadAllTasks();
   } else {
     console.log("edit todo");
     editTodo(editTodoIndex, projectSelectedIndex, titleTodosInput.value, descTodosInput.value);
     btnSubmitTodos.textContent = "Submit";
     isEditTodo = false;
+    loadAllTasks();
   }
   titleTodosInput.value = "";
   descTodosInput.value = "";

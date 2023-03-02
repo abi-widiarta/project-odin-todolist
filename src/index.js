@@ -1,9 +1,11 @@
 import "./style.css";
 
 // projects :
-// - edit,hapus(done)
+// - edit(done),hapus(done)
 // todo :
-// - edit,hapus
+// - edit(done),hapus(done)
+// all projects :
+// - add display mechanism so the latest to do will be at the bottom
 
 console.log("tes from console to test webpack setup");
 

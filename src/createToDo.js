@@ -59,4 +59,4 @@ const findProjectIndex = () => {
   }
 };
 
-export { createTodo, addTodo, appendTodoOnProjectSelect, todos };
+export { createTodo, addTodo, appendTodo, appendTodoOnProjectSelect, todos };
