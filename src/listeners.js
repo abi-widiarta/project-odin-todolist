@@ -1,5 +1,5 @@
 import { addTodo, appendTodoOnProjectSelect, todos } from "./createToDo";
-import { loadAllTasks, loadInitialProject } from "./loadInitialProject";
+import { allTasksContainer, appendAllTodo, appendAllTodoToArray, loadInitialProject } from "./loadInitialProject";
 import { projectList } from "./loadInitialProject";
 import { deleteProject, deleteTodos } from "./deleteFunction";
 import { editProject, editTodo } from "./editFunction";
@@ -44,21 +44,21 @@ btnSubmit.addEventListener("click", (event) => {
 //   });
 // };
 
-// submitForm();
+// submitForm();`
 
 btnSubmitTodos.addEventListener("click", (event) => {
   event.preventDefault();
   if (!isEditTodo) {
     addTodo(titleTodosInput.value, descTodosInput.value, projectSelectedIndex);
     appendTodoOnProjectSelect(projectSelectedIndex);
-    selectTodos();
-    loadAllTasks();
+    console.log();
+    selectTodos(projectSelectedIndex);
+    appendAllTodoToArray(titleTodosInput.value, descTodosInput.value, projectSelectedIndex);
   } else {
     console.log("edit todo");
     editTodo(editTodoIndex, projectSelectedIndex, titleTodosInput.value, descTodosInput.value);
     btnSubmitTodos.textContent = "Submit";
     isEditTodo = false;
-    loadAllTasks();
   }
   titleTodosInput.value = "";
   descTodosInput.value = "";
@@ -101,9 +101,12 @@ const selectProject = () => {
   });
 };
 
+const myListenerTodos = (e) => {
+  tesSelectTodos(e);
+};
+
 const tesSelectTodos = (e) => {
   if (e.target.classList.contains("edit-btn-todos")) {
-    console.log(e.target.parentElement.id);
     // console.log(projectList[projectSelectedIndex].projectTask[e.target.parentElement.id].title);
     titleTodosInput.value = projectList[projectSelectedIndex].projectTask[e.target.parentElement.id].title;
     descTodosInput.value = projectList[projectSelectedIndex].projectTask[e.target.parentElement.id].desc;
@@ -117,13 +120,12 @@ const tesSelectTodos = (e) => {
   }
 };
 
-const myListenerTodos = (e) => {
-  tesSelectTodos(e);
-};
-
 const selectTodos = () => {
   console.log("masuk select todos");
   Array.from(todos.children).forEach((element) => {
+    element.addEventListener("click", myListenerTodos);
+  });
+  Array.from(allTasksContainer.children).forEach((element) => {
     element.addEventListener("click", myListenerTodos);
   });
 };

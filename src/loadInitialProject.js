@@ -6,6 +6,7 @@ import { projectSelectedIndex } from "./listeners";
 
 // let projectObj = {};
 let projectList = [];
+let allTodoList = [];
 let idCount = 0;
 let idCountTodo = 0;
 
@@ -17,14 +18,14 @@ const createProject = (projectName) => {
   return { projectName, projectTask };
 };
 
-const loadAllTasks = () => {
-  allTasksContainer.innerHTML = "";
-  Array.from(projectList).forEach((element, index) => {
-    element.projectTask.forEach((task) => {
-      appendAllTodo(task, index);
-    });
-  });
-};
+// const loadAllTasks = () => {
+//   allTasksContainer.innerHTML = "";
+//   Array.from(projectList).forEach((element, index) => {
+//     element.projectTask.forEach((task) => {
+//       appendAllTodo(task, index);
+//     });
+//   });
+// };
 
 const loadInitialProject = (projectName) => {
   console.log("calling loadInitialProject");
@@ -35,32 +36,41 @@ const loadInitialProject = (projectName) => {
   selectProject();
 };
 
-const appendAllTodo = (newTodo, index) => {
-  const todosWrapper = document.createElement("div");
-  const p = document.createElement("p");
-  const deleteBtn = document.createElement("button");
-  const editBtn = document.createElement("button");
+const appendAllTodoToArray = (title, desc, index) => {
+  allTodoList.push({ title, desc, index });
+  console.log(allTodoList);
+  appendAllTodo();
+};
 
-  todosWrapper.setAttribute("id", idCountTodo);
+const appendAllTodo = () => {
+  allTasksContainer.innerHTML = "";
+  // idCountTodo = 0;
+  allTodoList.forEach((element) => {
+    const todosWrapper = document.createElement("div");
+    const p = document.createElement("p");
+    const deleteBtn = document.createElement("button");
+    const editBtn = document.createElement("button");
 
-  p.textContent = `${newTodo.title}, ${newTodo.desc}, ${index}`;
-  p.style.display = "inline-block";
+    todosWrapper.setAttribute("data-project-index", element.index);
 
-  editBtn.textContent = "Edit";
-  editBtn.style.display = "inline-block";
-  editBtn.className = "edit-btn-todos";
+    p.textContent = `${element.title}, ${element.desc}, ${element.index}`;
+    p.style.display = "inline-block";
 
-  deleteBtn.textContent = "Delete";
-  deleteBtn.style.display = "inline-block";
-  deleteBtn.className = "delete-btn-todos";
+    editBtn.textContent = "Edit";
+    editBtn.style.display = "inline-block";
+    editBtn.className = "edit-btn-todos";
 
-  todosWrapper.appendChild(p);
-  todosWrapper.appendChild(editBtn);
-  todosWrapper.appendChild(deleteBtn);
-  // console.log(allTasksContainer);
-  allTasksContainer.appendChild(todosWrapper);
+    deleteBtn.textContent = "Delete";
+    deleteBtn.style.display = "inline-block";
+    deleteBtn.className = "delete-btn-todos";
 
-  idCountTodo++;
+    todosWrapper.appendChild(p);
+    todosWrapper.appendChild(editBtn);
+    todosWrapper.appendChild(deleteBtn);
+    // console.log(allTasksContainer);
+    allTasksContainer.appendChild(todosWrapper);
+    // idCountTodo++;
+  });
 };
 
 const appendProjectDom = (projectName) => {
@@ -103,4 +113,4 @@ const appendAllProjectFromArray = () => {
   selectProject();
 };
 
-export { loadInitialProject, projectList, appendProjectDom, createProject, appendAllProjectFromArray, loadAllTasks };
+export { loadInitialProject, projectList, appendProjectDom, createProject, appendAllProjectFromArray, appendAllTodo, appendAllTodoToArray, allTasksContainer };
