@@ -7,6 +7,8 @@ import "./style.css";
 // all projects :
 // - add display mechanism so the latest to do will be at the bottom
 
+// added dataset todos(still has bugs)
+
 console.log("tes from console to test webpack setup");
 
 // const contentContainer = document.getElementById("content");

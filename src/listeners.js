@@ -32,30 +32,14 @@ btnSubmit.addEventListener("click", (event) => {
   titleInput.value = "";
 });
 
-// const submitForm = () => {
-//   btnSubmit.addEventListener("click", (event) => {
-//     event.preventDefault();
-//     if (!isEditProject) {
-//       loadInitialProject(titleInput.value);
-//     } else {
-//       console.log(isEditProject);
-//     }
-//     titleInput.value = "";
-//   });
-// };
-
-// submitForm();`
-
 btnSubmitTodos.addEventListener("click", (event) => {
   event.preventDefault();
   if (!isEditTodo) {
     addTodo(titleTodosInput.value, descTodosInput.value, projectSelectedIndex);
     appendTodoOnProjectSelect(projectSelectedIndex);
-    console.log();
     selectTodos(projectSelectedIndex);
-    appendAllTodoToArray(titleTodosInput.value, descTodosInput.value, projectSelectedIndex);
+    appendAllTodoToArray(titleTodosInput.value, descTodosInput.value, projectSelectedIndex, projectList);
   } else {
-    console.log("edit todo");
     editTodo(editTodoIndex, projectSelectedIndex, titleTodosInput.value, descTodosInput.value);
     btnSubmitTodos.textContent = "Submit";
     isEditTodo = false;
@@ -64,9 +48,22 @@ btnSubmitTodos.addEventListener("click", (event) => {
   descTodosInput.value = "";
 });
 
+// masih misteri kenapa jika bentuknya seperti ini, dia tidak ada
+// duplikasi
+
+// fungsi select project untuk memberikan eventlistener click ke semua project
+const selectProject = () => {
+  Array.from(projectChildren).forEach((element) => {
+    element.addEventListener("click", myListener);
+  });
+};
+
+const myListener = (e) => {
+  innerListener(e);
+};
+
 const innerListener = (event) => {
   const currentSelected = document.querySelector(".selected");
-
   if (currentSelected != undefined) {
     currentSelected.classList.remove("selected");
   }
@@ -87,17 +84,11 @@ const innerListener = (event) => {
   }
 };
 
-const myListener = (e) => {
-  innerListener(e);
-};
-
-// masih misteri kenapa jika bentuknya seperti ini, dia tidak ada
-// duplikasi
-
-// fungsi select project untuk memberikan eventlistener click ke semua project
-const selectProject = () => {
-  Array.from(projectChildren).forEach((element) => {
-    element.addEventListener("click", myListener);
+// fungsi select project untuk memberikan eventlistener click ke semua todos yang ditampilkan
+const selectTodos = () => {
+  console.log("masuk select todos");
+  Array.from(todos.children).forEach((element) => {
+    element.addEventListener("click", myListenerTodos);
   });
 };
 
@@ -120,14 +111,35 @@ const tesSelectTodos = (e) => {
   }
 };
 
-const selectTodos = () => {
-  console.log("masuk select todos");
-  Array.from(todos.children).forEach((element) => {
-    element.addEventListener("click", myListenerTodos);
-  });
+// fungsi select project untuk memberikan eventlistener click ke all task yang ditampilkan
+const selectAllTodos = () => {
+  // console.log("masuk select all todos");
   Array.from(allTasksContainer.children).forEach((element) => {
-    element.addEventListener("click", myListenerTodos);
+    element.addEventListener("click", myListenerAllTodos);
   });
+};
+
+const myListenerAllTodos = (e) => {
+  tesSelectAllTodos(e);
+};
+
+const tesSelectAllTodos = (e) => {
+  if (e.target.classList.contains("edit-btn-todos")) {
+    // console.log(projectList[projectSelectedIndex].projectTask[e.target.parentElement.id].title);
+    // titleTodosInput.value = projectList[projectSelectedIndex].projectTask[e.target.parentElement.id].title;
+    // descTodosInput.value = projectList[projectSelectedIndex].projectTask[e.target.parentElement.id].desc;
+    // editTodoIndex = e.target.parentElement.id;
+    // btnSubmitTodos.textContent = "Edit";
+    // isEditTodo = true;
+    console.log("edit all todos");
+    // setAttribute();
+    console.log(e.target.parentElement.getAttribute("data-project-index"));
+  } else if (e.target.classList.contains("delete-btn-todos")) {
+    // deleteTodos(e.target.parentElement.id, projectSelectedIndex);
+    console.log("delete all todos");
+  } else {
+    console.log("select all todos");
+  }
 };
 
 // Untuk tes metode conventional
@@ -143,4 +155,4 @@ const selectTodos = () => {
 //   });
 // };
 
-export { projectSelectedIndex, projectChildren, selectProject, selectTodos };
+export { projectSelectedIndex, projectChildren, selectProject, selectTodos, selectAllTodos };
